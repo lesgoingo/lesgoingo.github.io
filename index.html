@@ -2,57 +2,79 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Multi-Tool Ultra: Ultimate Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Multi-Tool Ultra: Perfect & Fixed</title>
     <style>
-        :root { --rgb-speed: 3s; --accent: #4ecca3; }
-        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f0f2f5; transition: 0.3s; color: #333; }
+        :root { --accent: #4ecca3; }
         
-        body.dark-mode { background: #222; color: #eee; }
-        body.dark-mode .card { background: #333; border-color: #444; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            text-align: center; padding: 15px; background: #f0f2f5; color: #333; margin: 0; transition: 0.3s;
+        }
+        
+        body.dark-mode { background: #1a1a1a; color: #eee; }
+        body.dark-mode .card { background: #2d2d2d; border-color: #444; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         body.dark-mode .tab-btn { background: #333; color: #eee; border-color: #444; }
-        body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #444; color: #fff; border-color: #555; }
-        body.dark-mode .v-wrap { background: #444; }
+        body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #3d3d3d; color: #fff; border-color: #555; }
+        body.dark-mode .v-wrap { background: #3d3d3d; }
+        body.dark-mode .guide-box { background: rgba(78, 204, 163, 0.1); color: #ccc; border-color: var(--accent); }
 
-        .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-btn { padding: 8px 15px; border-radius: 10px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
+        .card { 
+            background: white; padding: 20px; border-radius: 25px; 
+            max-width: 400px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            border: 2px solid #ccc; text-align: left; box-sizing: border-box; transition: 0.3s;
+        }
+
+        .guide-box {
+            background: #f0fff4; border: 1px solid var(--accent);
+            border-radius: 12px; padding: 12px; margin-bottom: 15px;
+            font-size: 13px; line-height: 1.4; display: block;
+        }
+
+        .tabs { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { 
+            padding: 10px 12px; border-radius: 12px; border: 1px solid #ccc; 
+            background: white; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s;
+        }
         .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        .card { background: white; padding: 25px; border-radius: 25px; max-width: 350px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 2px solid #ccc; text-align: left; transition: 0.3s; position: relative; }
-        
-        input:focus, textarea:focus, select:focus { border-color: var(--accent) !important; box-shadow: 0 0 10px rgba(78, 204, 163, 0.4); outline: none; }
-        
-        .v-wrap { transition: all 0.2s ease; border-left: 6px solid transparent; background: #f9f9f9; margin-bottom: 8px; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
-        .v-wrap:hover { transform: scale(1.02); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-
-        @keyframes pop-res {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); color: #ffbc00; }
-            100% { transform: scale(1); }
+        .input-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
+        input, select, textarea { 
+            padding: 14px; border-radius: 14px; border: 1px solid #ddd; 
+            width: 100%; font-size: 16px; box-sizing: border-box; outline: none;
         }
-        .res-highlight { animation: pop-res 0.4s ease-out; }
-
-        h2 { text-align: center; margin-top: 0; font-size: 20px; text-transform: uppercase; }
-        .input-row { display: flex; gap: 8px; margin-bottom: 12px; }
-        input[type="text"], select, textarea { padding: 12px; border-radius: 12px; border: 1px solid #ddd; width: 100%; box-sizing: border-box; }
         
-        .btn-plus { background: #ff4757; color: white; border: none; border-radius: 12px; width: 50px; cursor: pointer; font-size: 20px; font-weight: bold; }
-        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; color: white; margin-top: 15px; font-size: 14px; text-transform: uppercase; }
-
-        .item-main { padding: 12px; }
-        .item-header { display: flex; justify-content: space-between; align-items: center; }
-        .item-desc { font-size: 11px; opacity: 0.6; margin-top: 5px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 5px; }
+        /* ФИКС ПОЛЗУНКА */
+        .range-container { width: 100%; padding: 10px 0; }
+        input[type="range"] { 
+            width: 100%; height: 8px; border-radius: 5px; background: #ddd;
+            outline: none; -webkit-appearance: none; margin: 15px 0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 20px; height: 20px; 
+            border-radius: 50%; background: var(--accent); cursor: pointer;
+        }
         
-        /* Сортировка по цветам */
+        textarea { resize: none; height: 80px; margin-top: 5px; }
+        
+        .btn-plus { background: #ff4757; color: white; border: none; border-radius: 14px; width: 60px; height: 48px; cursor: pointer; font-size: 24px; }
+        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 18px; font-weight: bold; cursor: pointer; color: white; margin-top: 15px; font-size: 14px; text-transform: uppercase; }
+
+        #l-t, #l-v { display: flex; flex-direction: column; }
+        .v-wrap { border-left: 6px solid transparent; background: #f9f9f9; margin-bottom: 10px; border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; }
+        
+        /* Сортировка */
         .prio-1 { border-left-color: #ff4d4f; order: 1; } 
         .prio-2 { border-left-color: #ffc53d; order: 2; } 
         .prio-3 { border-left-color: #40a9ff; order: 3; }
-        .done { opacity: 0.3 !important; order: 10 !important; }
+        .done { opacity: 0.4 !important; filter: grayscale(1); order: 100 !important; }
         
-        #l-t { display: flex; flex-direction: column; }
+        .item-main { padding: 12px; }
+        .item-header { display: flex; justify-content: space-between; align-items: center; }
+        .item-desc { font-size: 12px; opacity: 0.6; margin-top: 8px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 8px; }
 
-        .pass-display { background: rgba(0,0,0,0.05); padding: 20px; border-radius: 15px; font-family: monospace; font-size: 18px; margin-bottom: 15px; text-align: center; border: 1px dashed #999; word-break: break-all; }
-        .profile-link { background: #24292e; color: white; padding: 12px 20px; border-radius: 12px; text-decoration: none; display: block; text-align: center; transition: 0.3s; font-weight: bold; }
-        .profile-link:hover { background: #4ecca3; transform: translateY(-2px); }
+        .pass-display { background: rgba(0,0,0,0.05); padding: 20px; border-radius: 18px; font-family: monospace; font-size: 18px; margin-bottom: 15px; text-align: center; border: 1px dashed #999; word-break: break-all; }
+        .help-btn { background: none; border: 1px solid #666; color: #999; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; float: right; }
     </style>
 </head>
 <body id="b">
@@ -62,12 +84,14 @@
         <button id="tab-p" class="tab-btn" onclick="showTab('p')" data-lang="tab_pass">🔐 ПАРОЛЬ</button>
         <button id="tab-t" class="tab-btn" onclick="showTab('t')" data-lang="tab_todo">📝 ДЕЛА</button>
         <button id="tab-a" class="tab-btn" onclick="showTab('a')" data-lang="tab_about">👤 О СЕБЕ</button>
-        <button class="tab-btn" onclick="toggleLang()" title="Language">🌐</button>
-        <button class="tab-btn" onclick="toggleTheme()" title="Theme">🌓</button>
+        <button class="tab-btn" onclick="toggleLang()">🌐</button>
+        <button class="tab-btn" onclick="toggleTheme()">🌓</button>
     </div>
 
     <div id="panel-v" class="card">
+        <button class="help-btn" onclick="toggleGuide('g-v')">?</button>
         <h2 style="color: #ff4757;" data-lang="h_choice">ВЫБИРАТОР</h2>
+        <div id="g-v" class="guide-box" data-lang="g_v">1. Добавьте варианты.<br>2. Нажмите «Узнать выбор».</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
             <button class="tab-btn" onclick="addFromBlock('food')" data-lang="b_food">🍕 Еда</button>
             <button class="tab-btn" onclick="addFromBlock('games')" data-lang="b_games">🎮 Игры</button>
@@ -79,153 +103,157 @@
             <button onclick="addVariant()" class="btn-plus">+</button>
         </div>
         <div id="l-v"></div>
-        <div id="res" style="text-align:center; font-weight:bold; font-size:24px; margin:15px; color:#ff4757; min-height:30px;">???</div>
+        <div id="res" style="text-align:center; font-weight:bold; font-size:26px; margin:15px; color:#ff4757; min-height:35px;">???</div>
         <button class="btn-main" style="background:#ff4757" onclick="makeChoice()" data-lang="btn_choose">УЗНАТЬ ВЫБОР</button>
     </div>
 
     <div id="panel-p" class="card" style="display: none;">
+        <button class="help-btn" onclick="toggleGuide('g-p')">?</button>
         <h2 style="color: #4b7bec;" data-lang="h_pass">ПАРОЛИ</h2>
+        <div id="g-p" class="guide-box" data-lang="g_p">1. Выберите длину.<br>2. Нажмите «Сформировать».</div>
         <div class="pass-display" id="passOut">********</div>
-        <div style="font-size:13px; display:flex; flex-direction:column; gap:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span data-lang="p_len">Длина:</span> <b id="lenVal">12</b>
-                <input type="range" id="passLen" min="4" max="25" value="12" oninput="document.getElementById('lenVal').innerText = this.value">
+        <div class="range-container">
+            <div style="display:flex; justify-content:space-between;">
+                <span data-lang="p_len">Длина</span>: <b id="lenVal">12</b>
             </div>
-            <label style="cursor:pointer"><input type="checkbox" id="useNums" checked> <span data-lang="p_nums">Цифры</span></label>
-            <label style="cursor:pointer"><input type="checkbox" id="useSyms"> <span data-lang="p_syms">Символы</span></label>
+            <input type="range" id="passLen" min="4" max="25" value="12" oninput="document.getElementById('lenVal').innerText = this.value">
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+            <label style="display:flex; align-items:center; gap:10px;"><input type="checkbox" id="useNums" checked style="width:20px; height:20px;"> <span data-lang="p_nums">Цифры</span></label>
+            <label style="display:flex; align-items:center; gap:10px;"><input type="checkbox" id="useSyms" style="width:20px; height:20px;"> <span data-lang="p_syms">Символы</span></label>
         </div>
         <button class="btn-main" style="background:#4b7bec" onclick="generatePass()" data-lang="btn_gen">СФОРМИРОВАТЬ</button>
     </div>
 
     <div id="panel-t" class="card" style="display: none;">
+        <button class="help-btn" onclick="toggleGuide('g-t')">?</button>
         <h2 style="color: #4ecca3;" data-lang="h_todo">МОИ ДЕЛА</h2>
+        <div id="g-t" class="guide-box" data-lang="g_t">1. Введите задачу и приоритет.<br>2. Нажмите на текст для выполнения.</div>
         <div class="input-row">
             <input type="text" id="i-t" data-lang-ph="ph_todo" placeholder="Название..." onkeypress="if(event.key==='Enter') addTodo()">
-            <select id="prio-select" style="width: auto;"></select>
+            <select id="prio-select" style="width: auto; height: 52px;"></select>
         </div>
-        <textarea id="i-desc" data-lang-ph="ph_desc" placeholder="Описание..." onkeypress="if(event.ctrlKey && event.key==='Enter') addTodo()"></textarea>
+        <textarea id="i-desc" data-lang-ph="ph_desc" placeholder="Описание..."></textarea>
         <button onclick="addTodo()" class="btn-main" style="background:#4ecca3" data-lang="btn_add">ДОБАВИТЬ</button>
         <div id="l-t" style="margin-top:15px;"></div>
     </div>
 
     <div id="panel-a" class="card" style="display: none;">
-        <h2 data-lang="h_about" style="color: #4ecca3;">ПРОФИЛЬ</h2>
-        <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.1); margin: 15px 0;">
-        <a href="https://github.com/lesgoingo" target="_blank" class="profile-link">lesgoingo</a>
+        <h2 style="color: #4ecca3;" data-lang="h_about">ПРОФИЛЬ</h2>
+        <hr style="border:0; border-top:1px solid #444; margin:15px 0;">
+        <a href="https://github.com/lesgoingo" target="_blank" style="background:#24292e; color:white; padding:15px; border-radius:15px; text-decoration:none; display:block; font-weight:bold; text-align:center;">GitHub: lesgoingo</a>
     </div>
 
     <script>
-        const body = document.body;
         let currentLang = localStorage.getItem('lang') || 'ru';
-
-        const lib = {
-            food: ["Пицца", "Суши", "Бургер"],
-            games: ["Brawl Stars", "Minecraft", "CS 2"],
-            movies: ["Аниме", "Ужастик", "Боевик"],
-            random: ["Учеба", "Сон", "Катка"]
-        };
+        const body = document.body;
 
         const langData = {
             ru: {
                 tab_choice: "ВЫБОР", tab_pass: "ПАРОЛЬ", tab_todo: "ДЕЛА", tab_about: "О СЕБЕ",
                 h_choice: "ВЫБИРАТОР", h_pass: "ПАРОЛИ", h_todo: "МОИ ДЕЛА", h_about: "ПРОФИЛЬ",
-                b_food: "Еда", b_games: "Игры", b_movies: "Кино", b_random: "Хаос",
+                b_food: "🍕 Еда", b_games: "🎮 Игры", b_movies: "🍿 Кино", b_random: "🚀 Хаос",
                 ph_variant: "Вариант...", ph_todo: "Название...", ph_desc: "Описание...",
                 btn_choose: "УЗНАТЬ ВЫБОР", btn_gen: "СФОРМИРОВАТЬ", btn_add: "ДОБАВИТЬ",
-                p_len: "Длина:", p_nums: "Цифры", p_syms: "Символы",
-                prio1: "🔴 Высокий", prio2: "🟡 Средний", prio3: "🔵 Низкий"
+                p_len: "Длина", p_nums: "Цифры", p_syms: "Символы",
+                prio1: "🔴 Важно", prio2: "🟡 Средне", prio3: "🔵 Позже",
+                g_v: "1. Добавьте варианты.<br>2. Нажмите «Узнать выбор».",
+                g_p: "1. Выберите длину.<br>2. Настройте символы.<br>3. Нажмите «Сформировать».",
+                g_t: "1. Введите задачу и приоритет.<br>2. Нажмите на текст для выполнения."
             },
             en: {
-                tab_choice: "CHOICE", tab_pass: "PASS", tab_todo: "TASKS", tab_about: "ABOUT",
-                h_choice: "PICKER", h_pass: "PASSWORDS", h_todo: "MY TASKS", h_about: "PROFILE",
-                b_food: "Food", b_games: "Games", b_movies: "Movies", b_random: "Chaos",
+                tab_choice: "PICKER", tab_pass: "PASS", tab_todo: "TASKS", tab_about: "ABOUT",
+                h_choice: "PICKER", h_pass: "PASSWORDS", h_todo: "TASKS", h_about: "PROFILE",
+                b_food: "🍕 Food", b_games: "🎮 Games", b_movies: "🍿 Movies", b_random: "🚀 Chaos",
                 ph_variant: "Option...", ph_todo: "Title...", ph_desc: "Desc...",
                 btn_choose: "PICK ONE", btn_gen: "GENERATE", btn_add: "ADD",
-                p_len: "Length:", p_nums: "Nums", p_syms: "Syms",
-                prio1: "🔴 High", prio2: "🟡 Mid", prio3: "🔵 Low"
+                p_len: "Length", p_nums: "Numbers", p_syms: "Symbols",
+                prio1: "🔴 High", prio2: "🟡 Mid", prio3: "🔵 Low",
+                g_v: "1. Add options.<br>2. Click 'Pick One'.",
+                g_p: "1. Choose length.<br>2. Toggle symbols.<br>3. Click 'Generate'.",
+                g_t: "1. Enter task and priority.<br>2. Click text to complete."
             }
         };
 
-        function sanitize(str) {
-            const temp = document.createElement('div');
-            temp.textContent = str;
-            return temp.innerHTML;
-        }
-
         function updateUI() {
-            document.querySelectorAll('[data-lang]').forEach(el => el.innerText = langData[currentLang][el.dataset.lang]);
+            document.querySelectorAll('[data-lang]').forEach(el => el.innerHTML = langData[currentLang][el.dataset.lang]);
             document.querySelectorAll('[data-lang-ph]').forEach(el => el.placeholder = langData[currentLang][el.dataset.langPh]);
             const ps = document.getElementById('prio-select');
-            ps.innerHTML = `<option value="1">${langData[currentLang].prio1}</option><option value="2" selected>${langData[currentLang].prio2}</option><option value="3">${langData[currentLang].prio3}</option>`;
+            const cur = ps.value || "2";
+            ps.innerHTML = `<option value="1">${langData[currentLang].prio1}</option><option value="2" ${cur==="2"?'selected':''}>${langData[currentLang].prio2}</option><option value="3" ${cur==="3"?'selected':''}>${langData[currentLang].prio3}</option>`;
         }
 
-        function toggleLang() { currentLang = (currentLang === 'ru' ? 'en' : 'ru'); localStorage.setItem('lang', currentLang); updateUI(); }
+        function toggleLang() { currentLang = currentLang === 'ru' ? 'en' : 'ru'; localStorage.setItem('lang', currentLang); updateUI(); }
         function toggleTheme() { body.classList.toggle('dark-mode'); localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+        function toggleGuide(id) { const g = document.getElementById(id); g.style.display = g.style.display === 'none' ? 'block' : 'none'; }
         function showTab(t) { ['v','p','t','a'].forEach(id => { document.getElementById('panel-'+id).style.display = (id===t)?'block':'none'; document.getElementById('tab-'+id).classList.toggle('active', id===t); }); }
 
         function addVariant(text = "") {
-            const val = sanitize(text || document.getElementById('i-v').value.trim());
+            const val = text || document.getElementById('i-v').value.trim();
             if (val) {
-                const div = document.createElement('div'); div.className = 'v-wrap prio-3'; div.style.padding="10px";
-                div.innerHTML = `<div style="display:flex; justify-content:space-between;"><span>${val}</span><span style="color:#ff4757; cursor:pointer;" onclick="this.parentElement.parentElement.remove()">×</span></div>`;
+                const div = document.createElement('div'); div.className = 'v-wrap prio-3'; div.style.padding="12px";
+                div.innerHTML = `<div class="item-header"><span>${val}</span><span style="color:#ff4757; cursor:pointer;" onclick="this.parentElement.parentElement.remove()">×</span></div>`;
                 document.getElementById('l-v').appendChild(div); document.getElementById('i-v').value = '';
             }
         }
 
-        function addFromBlock(cat) { addVariant(lib[cat][Math.floor(Math.random()*lib[cat].length)]); }
-
         function makeChoice() {
             const it = document.querySelectorAll('#l-v span:first-child'); if (it.length < 2) return;
-            const resEl = document.getElementById('res');
-            resEl.classList.remove('res-highlight');
-            let c = 0; 
-            const t = setInterval(() => { 
-                resEl.innerText = it[Math.floor(Math.random()*it.length)].innerText.toUpperCase(); 
-                if (++c > 12) { clearInterval(t); resEl.classList.add('res-highlight'); } 
-            }, 70);
+            let c = 0; const t = setInterval(() => { 
+                document.getElementById('res').innerText = it[Math.floor(Math.random()*it.length)].innerText.toUpperCase();
+                if (++c > 15) clearInterval(t);
+            }, 60);
         }
 
         function generatePass() {
-            const len = parseInt(document.getElementById('passLen').value);
-            const array = new Uint32Array(len); window.crypto.getRandomValues(array);
-            let set = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
-            let p = ""; for (let i=0; i<len; i++) p += set.charAt(array[i] % set.length);
+            const len = document.getElementById('passLen').value;
+            let set = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if (document.getElementById('useNums').checked) set += "0123456789";
+            if (document.getElementById('useSyms').checked) set += "!@#$%^&*()";
+            let p = ""; for (let i=0; i<len; i++) p += set.charAt(Math.floor(Math.random()*set.length));
             document.getElementById('passOut').innerText = p;
         }
 
         function addTodo(title="", done=false, prio="", desc="") {
-            const sTitle = sanitize(title || document.getElementById('i-t').value.trim());
-            const sDesc = sanitize(desc || document.getElementById('i-desc').value.trim());
+            const t = title || document.getElementById('i-t').value.trim();
+            const d = desc || document.getElementById('i-desc').value.trim();
             const p = prio || document.getElementById('prio-select').value;
-            if (sTitle) {
+            if (t) {
                 const div = document.createElement('div'); 
-                div.className = `v-wrap prio-${p}${done?' done':''}`; 
-                let descPart = sDesc ? `<div class="item-desc">${sDesc}</div>` : '';
-                div.innerHTML = `<div class="item-main"><div class="item-header"><span onclick="toggleTask(this)" style="flex:1; cursor:pointer; font-weight:bold;">${sTitle}</span><span style="color:#ff4757; cursor:pointer;" onclick="this.parentElement.parentElement.parentElement.remove();saveT()">×</span></div>${descPart}</div>`;
-                document.getElementById('l-t').appendChild(div); 
-                document.getElementById('i-t').value = ''; document.getElementById('i-desc').value = ''; saveT();
+                div.className = `v-wrap prio-${p}${done?' done':''}`;
+                div.style.order = done ? 100 : p;
+                div.innerHTML = `<div class="item-main"><div class="item-header"><span onclick="toggleTask(this)" style="cursor:pointer; font-weight:bold;">${t}</span><span style="color:#ff4757; cursor:pointer;" onclick="this.parentElement.parentElement.parentElement.remove();saveT()">×</span></div>${d ? '<div class="item-desc">'+d+'</div>' : ''}</div>`;
+                document.getElementById('l-t').appendChild(div);
+                document.getElementById('i-t').value = ''; document.getElementById('i-desc').value = '';
+                saveT();
             }
         }
 
         function toggleTask(el) {
-            el.parentElement.parentElement.parentElement.classList.toggle('done');
+            const wrap = el.parentElement.parentElement.parentElement;
+            wrap.classList.toggle('done');
+            const p = wrap.className.match(/prio-(\d)/)[1];
+            wrap.style.order = wrap.classList.contains('done') ? 100 : p;
             saveT();
         }
 
-        function saveT() { 
-            const data = Array.from(document.querySelectorAll('#l-t .v-wrap')).map(el => ({ 
-                t: el.querySelector('.item-header span').innerText, 
-                p: el.className.match(/prio-(\d)/)[1], 
+        function saveT() {
+            const data = Array.from(document.querySelectorAll('#l-t .v-wrap')).map(el => ({
+                t: el.querySelector('.item-header span').innerText,
+                p: el.className.match(/prio-(\d)/)[1],
                 d: el.classList.contains('done'),
                 desc: el.querySelector('.item-desc') ? el.querySelector('.item-desc').innerText : ""
             }));
-            localStorage.setItem('ultimateTasks', JSON.stringify(data));
+            localStorage.setItem('tasks_vfinal', JSON.stringify(data));
         }
 
+        const lib = { food: ["Пицца", "Суши"], games: ["Brawl Stars", "Minecraft"], movies: ["Аниме", "Ужасы"], random: ["Сон", "Катка"] };
+        function addFromBlock(cat) { document.getElementById('i-v').value = lib[cat][Math.floor(Math.random()*lib[cat].length)]; addVariant(); }
+
         window.onload = () => {
-            updateUI();
             if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
-            const saved = JSON.parse(localStorage.getItem('ultimateTasks') || '[]');
+            updateUI();
+            const saved = JSON.parse(localStorage.getItem('tasks_vfinal') || '[]');
             saved.sort((a,b) => (a.d - b.d) || (a.p - b.p)).forEach(x => addTodo(x.t, x.d, x.p, x.desc));
         };
     </script>
