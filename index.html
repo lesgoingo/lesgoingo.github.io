@@ -1,177 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Multi-Tool Ultra: Perfect & Fixed</title>
+    <title>Multi-Tool Ultra: Ultimate Edition</title>
     <style>
-        :root { --accent: #4ecca3; }
+        :root { 
+            --accent: #4ecca3; 
+            --bg: #f8f9fd;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         
+        body.dark-mode { 
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #f5f6fa;
+            --shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            text-align: center; padding: 15px; background: #f0f2f5; color: #333; margin: 0; transition: 0.3s;
-        }
-        
-        body.dark-mode { background: #1a1a1a; color: #eee; }
-        body.dark-mode .card { background: #2d2d2d; border-color: #444; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        body.dark-mode .tab-btn { background: #333; color: #eee; border-color: #444; }
-        body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: #3d3d3d; color: #fff; border-color: #555; }
-        body.dark-mode .v-wrap { background: #3d3d3d; }
-        body.dark-mode .guide-box { background: rgba(78, 204, 163, 0.1); color: #ccc; border-color: var(--accent); }
-
-        .card { 
-            background: white; padding: 20px; border-radius: 25px; 
-            max-width: 400px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            border: 2px solid #ccc; text-align: left; box-sizing: border-box; transition: 0.3s;
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: var(--bg); color: var(--text); 
+            margin: 0; padding: 20px; transition: var(--transition);
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .guide-box {
-            background: #f0fff4; border: 1px solid var(--accent);
-            border-radius: 12px; padding: 12px; margin-bottom: 15px;
-            font-size: 13px; line-height: 1.4; display: block;
+        /* Навигация */
+        .tabs { 
+            display: flex; gap: 8px; margin-bottom: 25px; 
+            background: var(--card-bg); padding: 8px; border-radius: 20px;
+            box-shadow: var(--shadow); position: sticky; top: 10px; z-index: 100;
         }
 
-        .tabs { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
         .tab-btn { 
-            padding: 10px 12px; border-radius: 12px; border: 1px solid #ccc; 
-            background: white; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s;
+            padding: 12px 18px; border-radius: 15px; border: none; 
+            background: transparent; color: var(--text); cursor: pointer; 
+            font-size: 13px; font-weight: 700; transition: var(--transition);
+            opacity: 0.6;
         }
-        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        .input-row { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
+        .tab-btn.active { 
+            background: var(--accent); color: white; opacity: 1;
+            box-shadow: 0 4px 15px rgba(78, 204, 163, 0.3);
+        }
+
+        /* Карточки */
+        .card { 
+            background: var(--card-bg); padding: 30px; border-radius: 30px; 
+            width: 100%; max-width: 420px; box-shadow: var(--shadow);
+            box-sizing: border-box; animation: slideUp 0.5s ease;
+            border: 1px solid rgba(128,128,128,0.1);
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Поля ввода */
         input, select, textarea { 
-            padding: 14px; border-radius: 14px; border: 1px solid #ddd; 
+            padding: 16px; border-radius: 16px; border: 2px solid rgba(128,128,128,0.1); 
             width: 100%; font-size: 16px; box-sizing: border-box; outline: none;
+            background: var(--bg); color: var(--text); transition: var(--transition);
         }
-        
-        /* ФИКС ПОЛЗУНКА */
-        .range-container { width: 100%; padding: 10px 0; }
-        input[type="range"] { 
-            width: 100%; height: 8px; border-radius: 5px; background: #ddd;
-            outline: none; -webkit-appearance: none; margin: 15px 0;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 20px; height: 20px; 
-            border-radius: 50%; background: var(--accent); cursor: pointer;
-        }
-        
-        textarea { resize: none; height: 80px; margin-top: 5px; }
-        
-        .btn-plus { background: #ff4757; color: white; border: none; border-radius: 14px; width: 60px; height: 48px; cursor: pointer; font-size: 24px; }
-        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 18px; font-weight: bold; cursor: pointer; color: white; margin-top: 15px; font-size: 14px; text-transform: uppercase; }
+        input:focus { border-color: var(--accent); }
 
-        #l-t, #l-v { display: flex; flex-direction: column; }
-        .v-wrap { border-left: 6px solid transparent; background: #f9f9f9; margin-bottom: 10px; border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; }
-        
-        /* Сортировка */
-        .prio-1 { border-left-color: #ff4d4f; order: 1; } 
-        .prio-2 { border-left-color: #ffc53d; order: 2; } 
-        .prio-3 { border-left-color: #40a9ff; order: 3; }
-        .done { opacity: 0.4 !important; filter: grayscale(1); order: 100 !important; }
-        
-        .item-main { padding: 12px; }
-        .item-header { display: flex; justify-content: space-between; align-items: center; }
-        .item-desc { font-size: 12px; opacity: 0.6; margin-top: 8px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 8px; }
+        .btn-main { 
+            width: 100%; padding: 18px; border: none; border-radius: 20px; 
+            font-weight: 800; cursor: pointer; color: white; transition: var(--transition);
+            font-size: 15px; text-transform: uppercase;
+        }
+        .btn-main:active { transform: scale(0.98); }
 
-        .pass-display { background: rgba(0,0,0,0.05); padding: 20px; border-radius: 18px; font-family: monospace; font-size: 18px; margin-bottom: 15px; text-align: center; border: 1px dashed #999; word-break: break-all; }
-        .help-btn { background: none; border: 1px solid #666; color: #999; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; float: right; }
+        /* Список */
+        .v-wrap { 
+            background: var(--bg); margin-bottom: 12px; border-radius: 20px; 
+            padding: 16px; border-left: 8px solid var(--accent);
+        }
+        .done { opacity: 0.5; text-decoration: line-through; filter: grayscale(1); }
+        .del-btn { color: #ff4757; font-size: 22px; cursor: pointer; }
+
+        /* Пароль Спец-стиль */
+        .pass-container { position: relative; margin-bottom: 20px; }
+        .pass-display { 
+            background: #2d3436; color: var(--accent); padding: 25px; 
+            border-radius: 20px; font-family: monospace; font-size: 20px; 
+            text-align: center; word-break: break-all; min-height: 30px;
+        }
+        .copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(255,255,255,0.1); border: none; color: white;
+            padding: 5px 10px; border-radius: 10px; cursor: pointer; font-size: 10px;
+        }
     </style>
 </head>
-<body id="b">
+<body>
 
     <div class="tabs">
-        <button id="tab-v" class="tab-btn active" onclick="showTab('v')" data-lang="tab_choice">🎯 ВЫБОР</button>
-        <button id="tab-p" class="tab-btn" onclick="showTab('p')" data-lang="tab_pass">🔐 ПАРОЛЬ</button>
-        <button id="tab-t" class="tab-btn" onclick="showTab('t')" data-lang="tab_todo">📝 ДЕЛА</button>
-        <button id="tab-a" class="tab-btn" onclick="showTab('a')" data-lang="tab_about">👤 О СЕБЕ</button>
-        <button class="tab-btn" onclick="toggleLang()">🌐</button>
-        <button class="tab-btn" onclick="toggleTheme()">🌓</button>
+        <button id="tab-v" class="tab-btn active" onclick="showTab('v')" data-lang="tab_choice">ВЫБОР</button>
+        <button id="tab-p" class="tab-btn" onclick="showTab('p')" data-lang="tab_pass">ПАРОЛЬ</button>
+        <button id="tab-t" class="tab-btn" onclick="showTab('t')" data-lang="tab_todo">ДЕЛА</button>
+        <button id="tab-a" class="tab-btn" onclick="showTab('a')" data-lang="tab_about">О СЕБЕ</button>
+        <button class="tab-btn" onclick="toggleLang()" style="opacity:1">🌐</button>
+        <button class="tab-btn" onclick="toggleTheme()" style="opacity:1">🌓</button>
     </div>
 
     <div id="panel-v" class="card">
-        <button class="help-btn" onclick="toggleGuide('g-v')">?</button>
-        <h2 style="color: #ff4757;" data-lang="h_choice">ВЫБИРАТОР</h2>
-        <div id="g-v" class="guide-box" data-lang="g_v">1. Добавьте варианты.<br>2. Нажмите «Узнать выбор».</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-            <button class="tab-btn" onclick="addFromBlock('food')" data-lang="b_food">🍕 Еда</button>
-            <button class="tab-btn" onclick="addFromBlock('games')" data-lang="b_games">🎮 Игры</button>
-            <button class="tab-btn" onclick="addFromBlock('movies')" data-lang="b_movies">🍿 Кино</button>
-            <button class="tab-btn" onclick="addFromBlock('random')" data-lang="b_random">🚀 Хаос</button>
+        <h2 style="color: #ff4757;" data-lang="h_choice">Выбиратор</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
+            <button class="tab-btn" onclick="addFromBlock('food')" style="border:1px solid #ddd" data-lang="b_food">🍕 Еда</button>
+            <button class="tab-btn" onclick="addFromBlock('games')" style="border:1px solid #ddd" data-lang="b_games">🎮 Игры</button>
         </div>
-        <div class="input-row">
-            <input type="text" id="i-v" data-lang-ph="ph_variant" placeholder="Вариант..." onkeypress="if(event.key==='Enter') addVariant()">
-            <button onclick="addVariant()" class="btn-plus">+</button>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <input type="text" id="i-v" data-lang-ph="ph_variant" placeholder="Вариант...">
+            <button onclick="addVariant()" class="btn-main" style="background:#ff4757; width:60px">+</button>
         </div>
         <div id="l-v"></div>
-        <div id="res" style="text-align:center; font-weight:bold; font-size:26px; margin:15px; color:#ff4757; min-height:35px;">???</div>
-        <button class="btn-main" style="background:#ff4757" onclick="makeChoice()" data-lang="btn_choose">УЗНАТЬ ВЫБОР</button>
+        <div id="res" style="text-align:center; font-weight:900; font-size:28px; margin:20px; color:#ff4757;">???</div>
+        <button class="btn-main" style="background:#ff4757" onclick="makeChoice()" data-lang="btn_choose">КРУТИТЬ</button>
     </div>
 
-    <div id="panel-p" class="card" style="display: none;">
-        <button class="help-btn" onclick="toggleGuide('g-p')">?</button>
-        <h2 style="color: #4b7bec;" data-lang="h_pass">ПАРОЛИ</h2>
-        <div id="g-p" class="guide-box" data-lang="g_p">1. Выберите длину.<br>2. Нажмите «Сформировать».</div>
-        <div class="pass-display" id="passOut">********</div>
-        <div class="range-container">
+    <div id="panel-p" class="card" style="display:none">
+        <h2 style="color: #4b7bec;" data-lang="h_pass">Генератор</h2>
+        <div class="pass-container">
+            <div class="pass-display" id="passOut">********</div>
+            <button class="copy-btn" onclick="copyPass(this)" data-lang="btn_copy">COPY</button>
+        </div>
+        <div style="margin-bottom: 20px;">
             <div style="display:flex; justify-content:space-between;">
-                <span data-lang="p_len">Длина</span>: <b id="lenVal">12</b>
+                <span data-lang="p_len">Длина</span> <b id="lenVal">12</b>
             </div>
-            <input type="range" id="passLen" min="4" max="25" value="12" oninput="document.getElementById('lenVal').innerText = this.value">
+            <input type="range" id="passLen" min="6" max="32" value="12" oninput="document.getElementById('lenVal').innerText = this.value">
         </div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-            <label style="display:flex; align-items:center; gap:10px;"><input type="checkbox" id="useNums" checked style="width:20px; height:20px;"> <span data-lang="p_nums">Цифры</span></label>
-            <label style="display:flex; align-items:center; gap:10px;"><input type="checkbox" id="useSyms" style="width:20px; height:20px;"> <span data-lang="p_syms">Символы</span></label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+            <label style="display:flex; align-items:center; gap:8px; background:var(--bg); padding:12px; border-radius:15px; cursor:pointer;">
+                <input type="checkbox" id="useNums" checked> <span data-lang="p_nums" style="font-size:12px">Цифры</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; background:var(--bg); padding:12px; border-radius:15px; cursor:pointer;">
+                <input type="checkbox" id="useSyms"> <span data-lang="p_syms" style="font-size:12px">Символы</span>
+            </label>
         </div>
-        <button class="btn-main" style="background:#4b7bec" onclick="generatePass()" data-lang="btn_gen">СФОРМИРОВАТЬ</button>
+        <button class="btn-main" style="background:#4b7bec" onclick="generatePass()" data-lang="btn_gen">СОЗДАТЬ</button>
     </div>
 
-    <div id="panel-t" class="card" style="display: none;">
-        <button class="help-btn" onclick="toggleGuide('g-t')">?</button>
-        <h2 style="color: #4ecca3;" data-lang="h_todo">МОИ ДЕЛА</h2>
-        <div id="g-t" class="guide-box" data-lang="g_t">1. Введите задачу и приоритет.<br>2. Нажмите на текст для выполнения.</div>
-        <div class="input-row">
-            <input type="text" id="i-t" data-lang-ph="ph_todo" placeholder="Название..." onkeypress="if(event.key==='Enter') addTodo()">
-            <select id="prio-select" style="width: auto; height: 52px;"></select>
+    <div id="panel-t" class="card" style="display:none">
+        <h2 style="color: var(--accent);" data-lang="h_todo">Мои Дела</h2>
+        <input type="text" id="i-t" data-lang-ph="ph_todo" placeholder="Что сделать?" style="margin-bottom:10px">
+        <div style="display: flex; gap: 10px; margin-bottom:10px">
+            <select id="prio-select"></select>
+            <button onclick="addTodo()" class="btn-main" style="background:var(--accent); width:80px">+</button>
         </div>
         <textarea id="i-desc" data-lang-ph="ph_desc" placeholder="Описание..."></textarea>
-        <button onclick="addTodo()" class="btn-main" style="background:#4ecca3" data-lang="btn_add">ДОБАВИТЬ</button>
-        <div id="l-t" style="margin-top:15px;"></div>
+        <div id="l-t" style="margin-top:20px"></div>
     </div>
 
-    <div id="panel-a" class="card" style="display: none;">
-        <h2 style="color: #4ecca3;" data-lang="h_about">ПРОФИЛЬ</h2>
-        <hr style="border:0; border-top:1px solid #444; margin:15px 0;">
-        <a href="https://github.com/lesgoingo" target="_blank" style="background:#24292e; color:white; padding:15px; border-radius:15px; text-decoration:none; display:block; font-weight:bold; text-align:center;">GitHub: lesgoingo</a>
+    <div id="panel-a" class="card" style="display:none; text-align:center;">
+        <h2 data-lang="h_about">Профиль</h2>
+        <div style="font-size:50px; margin-bottom:15px;"></div>
+        <a href="https://github.com/lesgoingo" target="_blank" style="color:var(--accent); font-weight:bold; text-decoration:none; font-size:18px;">GitHub @lesgoingo</a>
     </div>
 
     <script>
         let currentLang = localStorage.getItem('lang') || 'ru';
-        const body = document.body;
+        let tasks = JSON.parse(localStorage.getItem('tasks_vfinal') || '[]');
+        let variants = [];
 
         const langData = {
             ru: {
                 tab_choice: "ВЫБОР", tab_pass: "ПАРОЛЬ", tab_todo: "ДЕЛА", tab_about: "О СЕБЕ",
-                h_choice: "ВЫБИРАТОР", h_pass: "ПАРОЛИ", h_todo: "МОИ ДЕЛА", h_about: "ПРОФИЛЬ",
-                b_food: "🍕 Еда", b_games: "🎮 Игры", b_movies: "🍿 Кино", b_random: "🚀 Хаос",
-                ph_variant: "Вариант...", ph_todo: "Название...", ph_desc: "Описание...",
-                btn_choose: "УЗНАТЬ ВЫБОР", btn_gen: "СФОРМИРОВАТЬ", btn_add: "ДОБАВИТЬ",
-                p_len: "Длина", p_nums: "Цифры", p_syms: "Символы",
-                prio1: "🔴 Важно", prio2: "🟡 Средне", prio3: "🔵 Позже",
-                g_v: "1. Добавьте варианты.<br>2. Нажмите «Узнать выбор».",
-                g_p: "1. Выберите длину.<br>2. Настройте символы.<br>3. Нажмите «Сформировать».",
-                g_t: "1. Введите задачу и приоритет.<br>2. Нажмите на текст для выполнения."
+                h_choice: "Выбиратор", h_pass: "Пароли", h_todo: "Дела", h_about: "Профиль",
+                b_food: "Еда", b_games: "Игры", ph_variant: "Вариант...", ph_todo: "Что сделать?",
+                ph_desc: "Описание...", btn_choose: "КРУТИТЬ", btn_gen: "СОЗДАТЬ", btn_copy: "КОПИРОВАТЬ",
+                p_len: "Длина", p_nums: "Цифры", p_syms: "Символы", prio1: "🔴 Важно", prio2: "🟡 Средне", prio3: "🔵 Позже", copied: "ГОТОВО!"
             },
             en: {
-                tab_choice: "PICKER", tab_pass: "PASS", tab_todo: "TASKS", tab_about: "ABOUT",
-                h_choice: "PICKER", h_pass: "PASSWORDS", h_todo: "TASKS", h_about: "PROFILE",
-                b_food: "🍕 Food", b_games: "🎮 Games", b_movies: "🍿 Movies", b_random: "🚀 Chaos",
-                ph_variant: "Option...", ph_todo: "Title...", ph_desc: "Desc...",
-                btn_choose: "PICK ONE", btn_gen: "GENERATE", btn_add: "ADD",
-                p_len: "Length", p_nums: "Numbers", p_syms: "Symbols",
-                prio1: "🔴 High", prio2: "🟡 Mid", prio3: "🔵 Low",
-                g_v: "1. Add options.<br>2. Click 'Pick One'.",
-                g_p: "1. Choose length.<br>2. Toggle symbols.<br>3. Click 'Generate'.",
-                g_t: "1. Enter task and priority.<br>2. Click text to complete."
+                tab_choice: "PICK", tab_pass: "PASS", tab_todo: "TODO", tab_about: "ME",
+                h_choice: "Picker", h_pass: "Passgen", h_todo: "Tasks", h_about: "Profile",
+                b_food: "Food", b_games: "Games", ph_variant: "Option...", ph_todo: "Task title...",
+                ph_desc: "Desc...", btn_choose: "SPIN", btn_gen: "CREATE", btn_copy: "COPY",
+                p_len: "Length", p_nums: "Numbers", p_syms: "Symbols", prio1: "🔴 High", prio2: "🟡 Mid", prio3: "🔵 Low", copied: "DONE!"
             }
         };
 
@@ -179,83 +186,81 @@
             document.querySelectorAll('[data-lang]').forEach(el => el.innerHTML = langData[currentLang][el.dataset.lang]);
             document.querySelectorAll('[data-lang-ph]').forEach(el => el.placeholder = langData[currentLang][el.dataset.langPh]);
             const ps = document.getElementById('prio-select');
-            const cur = ps.value || "2";
-            ps.innerHTML = `<option value="1">${langData[currentLang].prio1}</option><option value="2" ${cur==="2"?'selected':''}>${langData[currentLang].prio2}</option><option value="3" ${cur==="3"?'selected':''}>${langData[currentLang].prio3}</option>`;
+            ps.innerHTML = `<option value="1">${langData[currentLang].prio1}</option><option value="2" selected>${langData[currentLang].prio2}</option><option value="3">${langData[currentLang].prio3}</option>`;
         }
 
         function toggleLang() { currentLang = currentLang === 'ru' ? 'en' : 'ru'; localStorage.setItem('lang', currentLang); updateUI(); }
-        function toggleTheme() { body.classList.toggle('dark-mode'); localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light'); }
-        function toggleGuide(id) { const g = document.getElementById(id); g.style.display = g.style.display === 'none' ? 'block' : 'none'; }
+        function toggleTheme() { document.body.classList.toggle('dark-mode'); }
         function showTab(t) { ['v','p','t','a'].forEach(id => { document.getElementById('panel-'+id).style.display = (id===t)?'block':'none'; document.getElementById('tab-'+id).classList.toggle('active', id===t); }); }
 
         function addVariant(text = "") {
             const val = text || document.getElementById('i-v').value.trim();
-            if (val) {
-                const div = document.createElement('div'); div.className = 'v-wrap prio-3'; div.style.padding="12px";
-                div.innerHTML = `<div class="item-header"><span>${val}</span><span style="color:#ff4757; cursor:pointer;" onclick="this.parentElement.parentElement.remove()">×</span></div>`;
-                document.getElementById('l-v').appendChild(div); document.getElementById('i-v').value = '';
-            }
+            if (val) { variants.push(val); document.getElementById('i-v').value = ''; renderVariants(); }
+        }
+
+        function renderVariants() {
+            const list = document.getElementById('l-v'); list.innerHTML = '';
+            variants.forEach((v, i) => {
+                const div = document.createElement('div'); div.className = 'v-wrap'; div.style.borderLeftColor = '#ff4757';
+                div.innerHTML = `<div style="display:flex;justify-content:space-between"><span>${v}</span><span class="del-btn" onclick="variants.splice(${i},1);renderVariants()">×</span></div>`;
+                list.append(div);
+            });
         }
 
         function makeChoice() {
-            const it = document.querySelectorAll('#l-v span:first-child'); if (it.length < 2) return;
-            let c = 0; const t = setInterval(() => { 
-                document.getElementById('res').innerText = it[Math.floor(Math.random()*it.length)].innerText.toUpperCase();
-                if (++c > 15) clearInterval(t);
-            }, 60);
+            if (variants.length < 2) return;
+            let c = 0; const res = document.getElementById('res');
+            const t = setInterval(() => { res.textContent = variants[Math.floor(Math.random()*variants.length)].toUpperCase(); if (++c > 12) clearInterval(t); }, 80);
         }
 
         function generatePass() {
             const len = document.getElementById('passLen').value;
-            let set = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            if (document.getElementById('useNums').checked) set += "0123456789";
-            if (document.getElementById('useSyms').checked) set += "!@#$%^&*()";
-            let p = ""; for (let i=0; i<len; i++) p += set.charAt(Math.floor(Math.random()*set.length));
-            document.getElementById('passOut').innerText = p;
+            const nums = document.getElementById('useNums').checked;
+            const syms = document.getElementById('useSyms').checked;
+            let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if (nums) charset += "0123456789";
+            if (syms) charset += "!@#$%^&*()_+";
+            let p = ""; const arr = new Uint32Array(len); window.crypto.getRandomValues(arr);
+            for (let i=0; i<len; i++) p += charset.charAt(arr[i] % charset.length);
+            document.getElementById('passOut').textContent = p;
         }
 
-        function addTodo(title="", done=false, prio="", desc="") {
-            const t = title || document.getElementById('i-t').value.trim();
-            const d = desc || document.getElementById('i-desc').value.trim();
-            const p = prio || document.getElementById('prio-select').value;
-            if (t) {
-                const div = document.createElement('div'); 
-                div.className = `v-wrap prio-${p}${done?' done':''}`;
-                div.style.order = done ? 100 : p;
-                div.innerHTML = `<div class="item-main"><div class="item-header"><span onclick="toggleTask(this)" style="cursor:pointer; font-weight:bold;">${t}</span><span style="color:#ff4757; cursor:pointer;" onclick="this.parentElement.parentElement.parentElement.remove();saveT()">×</span></div>${d ? '<div class="item-desc">'+d+'</div>' : ''}</div>`;
-                document.getElementById('l-t').appendChild(div);
-                document.getElementById('i-t').value = ''; document.getElementById('i-desc').value = '';
-                saveT();
-            }
+        function copyPass(btn) {
+            const pass = document.getElementById('passOut').textContent;
+            if (pass.includes('*')) return;
+            navigator.clipboard.writeText(pass);
+            const oldText = btn.innerText;
+            btn.innerText = langData[currentLang].copied;
+            setTimeout(() => btn.innerText = oldText, 1500);
         }
 
-        function toggleTask(el) {
-            const wrap = el.parentElement.parentElement.parentElement;
-            wrap.classList.toggle('done');
-            const p = wrap.className.match(/prio-(\d)/)[1];
-            wrap.style.order = wrap.classList.contains('done') ? 100 : p;
-            saveT();
+        function addTodo() {
+            const t = document.getElementById('i-t'), d = document.getElementById('i-desc'), p = document.getElementById('prio-select');
+            if (!t.value.trim()) return;
+            tasks.push({ id: Date.now(), title: t.value.trim(), desc: d.value.trim(), priority: p.value, done: false });
+            t.value = ''; d.value = ''; saveAndRender();
         }
 
-        function saveT() {
-            const data = Array.from(document.querySelectorAll('#l-t .v-wrap')).map(el => ({
-                t: el.querySelector('.item-header span').innerText,
-                p: el.className.match(/prio-(\d)/)[1],
-                d: el.classList.contains('done'),
-                desc: el.querySelector('.item-desc') ? el.querySelector('.item-desc').innerText : ""
-            }));
-            localStorage.setItem('tasks_vfinal', JSON.stringify(data));
+        function saveAndRender() {
+            localStorage.setItem('tasks_vfinal', JSON.stringify(tasks));
+            const list = document.getElementById('l-t'); list.innerHTML = '';
+            tasks.sort((a,b) => (a.done - b.done) || (a.priority - b.priority)).forEach(task => {
+                const wrap = document.createElement('div');
+                wrap.className = `v-wrap ${task.done ? 'done' : ''}`;
+                wrap.style.borderLeftColor = task.priority == 1 ? '#ff4d4f' : (task.priority == 2 ? '#ffc53d' : '#40a9ff');
+                wrap.innerHTML = `<div style="display:flex;justify-content:space-between"><span style="cursor:pointer;font-weight:bold" onclick="toggleTask(${task.id})">${task.title}</span><span class="del-btn" onclick="delTask(${task.id})">×</span></div>`;
+                if(task.desc) wrap.innerHTML += `<div style="font-size:12px;opacity:0.6;margin-top:8px">${task.desc}</div>`;
+                list.append(wrap);
+            });
         }
 
-        const lib = { food: ["Пицца", "Суши"], games: ["Brawl Stars", "Minecraft"], movies: ["Аниме", "Ужасы"], random: ["Сон", "Катка"] };
-        function addFromBlock(cat) { document.getElementById('i-v').value = lib[cat][Math.floor(Math.random()*lib[cat].length)]; addVariant(); }
+        function toggleTask(id) { const t = tasks.find(x=>x.id===id); t.done = !t.done; saveAndRender(); }
+        function delTask(id) { tasks = tasks.filter(x=>x.id!==id); saveAndRender(); }
 
-        window.onload = () => {
-            if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
-            updateUI();
-            const saved = JSON.parse(localStorage.getItem('tasks_vfinal') || '[]');
-            saved.sort((a,b) => (a.d - b.d) || (a.p - b.p)).forEach(x => addTodo(x.t, x.d, x.p, x.desc));
-        };
+        const lib = { food: ["Пицца", "Бургер", "Паста"], games: ["Minecraft", "Brawl Stars", "CS2"] };
+        function addFromBlock(cat) { addVariant(lib[cat][Math.floor(Math.random()*lib[cat].length)]); }
+
+        window.onload = () => { updateUI(); saveAndRender(); };
     </script>
 </body>
 </html>
