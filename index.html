@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Выбиратор 5.0 - Анимация</title>
+    <style>
+        body { background: #1a1a2e; color: white; font-family: sans-serif; text-align: center; }
+        .box { 
+            background: #16213e; padding: 20px; border-radius: 15px; 
+            display: inline-block; margin-top: 50px; border: 1px solid #0f3460; width: 280px;
+        }
+        input { padding: 12px; border-radius: 8px; border: none; width: 180px; outline: none; }
+        button { padding: 10px; cursor: pointer; border-radius: 8px; border: none; font-weight: bold; transition: 0.2s; }
+        button:active { transform: scale(0.95); }
+        
+        #list { text-align: left; margin: 20px 0; padding-left: 0; list-style: none; max-height: 150px; overflow-y: auto; }
+        li { background: #0f3460; margin: 5px 0; padding: 10px; border-radius: 8px; border-left: 4px solid #4ecca3; animation: slideIn 0.3s ease; }
+        
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+        #result { 
+            font-size: 1.6rem; color: #4ecca3; font-weight: bold; 
+            margin: 20px 0; min-height: 50px; display: flex; align-items: center; justify-content: center;
+            border: 2px dashed #0f3460; border-radius: 10px;
+        }
+        
+        .btn-spin { background: #e94560; color: white; width: 100%; font-size: 1.1rem; box-shadow: 0 4px #a32e43; }
+        .btn-spin:active { box-shadow: 0 0; transform: translateY(4px); }
+        .btn-clear { background: transparent; color: #666; font-size: 0.8rem; margin-top: 15px; border: none; width: 100%; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2 style="color: #4ecca3;">ВЫБИРАТОР</h2>
+    
+    <div style="display: flex; gap: 5px; justify-content: center;">
+        <input type="text" id="inp" placeholder="Что добавим?">
+        <button onclick="add()" style="background: #4ecca3; color: white;">+</button>
+    </div>
+    
+    <ul id="list"></ul>
+    
+    <div id="result">ЖДУ ВВОДА...</div>
+    
+    <button id="spinBtn" onclick="choose()" class="btn-spin">КРУТИТЬ!</button>
+    <button onclick="clearList()" class="btn-clear">Очистить всё</button>
+</div>
+
+<script>
+    var items = [];
+
+    function add() {
+        var pole = document.getElementById('inp');
+        var text = pole.value.trim();
+        if (text !== "") {
+            items.push(text);
+            var spisok = document.getElementById('list');
+            var li = document.createElement('li');
+            li.textContent = text;
+            spisok.appendChild(li);
+            pole.value = "";
+        }
+    }
+
+    document.getElementById('inp').addEventListener('keydown', function(e) {
+        if (e.key === "Enter") add();
+    });
+
+    function choose() {
+        if (items.length < 2) return alert("Мало вариантов!");
+        
+        var resDiv = document.getElementById('result');
+        var btn = document.getElementById('spinBtn');
+        
+        // Отключаем кнопку на время анимации
+        btn.disabled = true;
+        resDiv.style.color = "#ffbd69"; // Меняем цвет во время "вращения"
+        
+        var count = 0;
+        var timer = setInterval(function() {
+            // Показываем случайный вариант каждые 100мс
+            var randomNum = Math.floor(Math.random() * items.length);
+            resDiv.innerText = items[randomNum].toUpperCase();
+            
+            count++;
+            if (count > 15) { // После 15 переключений останавливаемся
+                clearInterval(timer);
+                resDiv.style.color = "#4ecca3"; // Финальный цвет
+                btn.disabled = false;
+            }
+        }, 80);
+    }
+
+    function clearList() {
+        items = [];
+        document.getElementById('list').innerHTML = "";
+        document.getElementById('result').innerText = "ЖДУ ВВОДА...";
+    }
+</script>
+
+</body>
+</html>
