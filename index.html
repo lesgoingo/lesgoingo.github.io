@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=1024"> 
     <title>Multi-Tool Ultra: Ultimate Edition</title>
     <style>
         :root { 
@@ -24,11 +24,10 @@
         body { 
             font-family: 'Inter', -apple-system, sans-serif; 
             background: var(--bg); color: var(--text); 
-            margin: 0; padding: 20px; transition: var(--transition);
+            margin: 0; padding: 40px; transition: var(--transition);
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Навигация */
         .tabs { 
             display: flex; gap: 8px; margin-bottom: 25px; 
             background: var(--card-bg); padding: 8px; border-radius: 20px;
@@ -36,9 +35,9 @@
         }
 
         .tab-btn { 
-            padding: 12px 18px; border-radius: 15px; border: none; 
+            padding: 12px 25px; border-radius: 15px; border: none; 
             background: transparent; color: var(--text); cursor: pointer; 
-            font-size: 13px; font-weight: 700; transition: var(--transition);
+            font-size: 14px; font-weight: 700; transition: var(--transition);
             opacity: 0.6;
         }
 
@@ -47,32 +46,33 @@
             box-shadow: 0 4px 15px rgba(78, 204, 163, 0.3);
         }
 
-        /* Карточки */
         .card { 
-            background: var(--card-bg); padding: 30px; border-radius: 30px; 
-            width: 100%; max-width: 420px; box-shadow: var(--shadow);
+            background: var(--card-bg); padding: 40px; border-radius: 30px; 
+            width: 100%; max-width: 800px;
+            box-shadow: var(--shadow);
             box-sizing: border-box; animation: slideUp 0.5s ease;
             border: 1px solid rgba(128,128,128,0.1);
         }
 
+        .instruction {
+            font-size: 14px; opacity: 0.7; margin-bottom: 25px; line-height: 1.5;
+            padding: 15px; background: var(--bg); border-radius: 12px; border-left: 4px solid var(--accent);
+        }
+
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Поля ввода */
         input, select, textarea { 
             padding: 16px; border-radius: 16px; border: 2px solid rgba(128,128,128,0.1); 
             width: 100%; font-size: 16px; box-sizing: border-box; outline: none;
             background: var(--bg); color: var(--text); transition: var(--transition);
         }
-        input:focus { border-color: var(--accent); }
 
         .btn-main { 
             width: 100%; padding: 18px; border: none; border-radius: 20px; 
             font-weight: 800; cursor: pointer; color: white; transition: var(--transition);
             font-size: 15px; text-transform: uppercase;
         }
-        .btn-main:active { transform: scale(0.98); }
 
-        /* Список */
         .v-wrap { 
             background: var(--bg); margin-bottom: 12px; border-radius: 20px; 
             padding: 16px; border-left: 8px solid var(--accent);
@@ -80,17 +80,16 @@
         .done { opacity: 0.5; text-decoration: line-through; filter: grayscale(1); }
         .del-btn { color: #ff4757; font-size: 22px; cursor: pointer; }
 
-        /* Пароль Спец-стиль */
         .pass-container { position: relative; margin-bottom: 20px; }
         .pass-display { 
             background: #2d3436; color: var(--accent); padding: 25px; 
-            border-radius: 20px; font-family: monospace; font-size: 20px; 
-            text-align: center; word-break: break-all; min-height: 30px;
+            border-radius: 20px; font-family: monospace; font-size: 24px; 
+            text-align: center; word-break: break-all;
         }
         .copy-btn {
             position: absolute; top: 10px; right: 10px;
             background: rgba(255,255,255,0.1); border: none; color: white;
-            padding: 5px 10px; border-radius: 10px; cursor: pointer; font-size: 10px;
+            padding: 5px 10px; border-radius: 10px; cursor: pointer;
         }
     </style>
 </head>
@@ -107,12 +106,13 @@
 
     <div id="panel-v" class="card">
         <h2 style="color: #ff4757;" data-lang="h_choice">Выбиратор</h2>
+        <p class="instruction" data-lang="inst_v">Введите варианты в поле ниже. Можно нажать Enter, чтобы добавить вариант в список.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
             <button class="tab-btn" onclick="addFromBlock('food')" style="border:1px solid #ddd" data-lang="b_food">🍕 Еда</button>
             <button class="tab-btn" onclick="addFromBlock('games')" style="border:1px solid #ddd" data-lang="b_games">🎮 Игры</button>
         </div>
         <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <input type="text" id="i-v" data-lang-ph="ph_variant" placeholder="Вариант...">
+            <input type="text" id="i-v" data-lang-ph="ph_variant" placeholder="Вариант..." onkeypress="if(event.key==='Enter') addVariant()">
             <button onclick="addVariant()" class="btn-main" style="background:#ff4757; width:60px">+</button>
         </div>
         <div id="l-v"></div>
@@ -122,6 +122,7 @@
 
     <div id="panel-p" class="card" style="display:none">
         <h2 style="color: #4b7bec;" data-lang="h_pass">Генератор</h2>
+        <p class="instruction" data-lang="inst_p">Настройте параметры и нажмите «Создать».</p>
         <div class="pass-container">
             <div class="pass-display" id="passOut">********</div>
             <button class="copy-btn" onclick="copyPass(this)" data-lang="btn_copy">COPY</button>
@@ -145,7 +146,8 @@
 
     <div id="panel-t" class="card" style="display:none">
         <h2 style="color: var(--accent);" data-lang="h_todo">Мои Дела</h2>
-        <input type="text" id="i-t" data-lang-ph="ph_todo" placeholder="Что сделать?" style="margin-bottom:10px">
+        <p class="instruction" data-lang="inst_t">Введите название дела и нажмите Enter для быстрого добавления.</p>
+        <input type="text" id="i-t" data-lang-ph="ph_todo" placeholder="Что сделать?" style="margin-bottom:10px" onkeypress="if(event.key==='Enter') addTodo()">
         <div style="display: flex; gap: 10px; margin-bottom:10px">
             <select id="prio-select"></select>
             <button onclick="addTodo()" class="btn-main" style="background:var(--accent); width:80px">+</button>
@@ -156,7 +158,8 @@
 
     <div id="panel-a" class="card" style="display:none; text-align:center;">
         <h2 data-lang="h_about">Профиль</h2>
-        <div style="font-size:50px; margin-bottom:15px;"></div>
+        <p class="instruction" data-lang="inst_a">Ваш личный кабинет и ссылки.</p>
+        <div style="font-size:50px; margin-bottom:15px;">🚀</div>
         <a href="https://github.com/lesgoingo" target="_blank" style="color:var(--accent); font-weight:bold; text-decoration:none; font-size:18px;">GitHub @lesgoingo</a>
     </div>
 
@@ -169,6 +172,10 @@
             ru: {
                 tab_choice: "ВЫБОР", tab_pass: "ПАРОЛЬ", tab_todo: "ДЕЛА", tab_about: "О СЕБЕ",
                 h_choice: "Выбиратор", h_pass: "Пароли", h_todo: "Дела", h_about: "Профиль",
+                inst_v: "Введите варианты. Можно нажать Enter для добавления.",
+                inst_p: "Настройте длину и символы. Нажмите «Создать».",
+                inst_t: "Добавляйте задачи. Нажмите Enter в поле ввода для быстрого сохранения.",
+                inst_a: "Ссылки на ваши проекты и контакты.",
                 b_food: "Еда", b_games: "Игры", ph_variant: "Вариант...", ph_todo: "Что сделать?",
                 ph_desc: "Описание...", btn_choose: "КРУТИТЬ", btn_gen: "СОЗДАТЬ", btn_copy: "КОПИРОВАТЬ",
                 p_len: "Длина", p_nums: "Цифры", p_syms: "Символы", prio1: "🔴 Важно", prio2: "🟡 Средне", prio3: "🔵 Позже", copied: "ГОТОВО!"
@@ -176,6 +183,10 @@
             en: {
                 tab_choice: "PICK", tab_pass: "PASS", tab_todo: "TODO", tab_about: "ME",
                 h_choice: "Picker", h_pass: "Passgen", h_todo: "Tasks", h_about: "Profile",
+                inst_v: "Enter options. You can press Enter to add.",
+                inst_p: "Set length and options. Press 'Create'.",
+                inst_t: "Add tasks. Press Enter in the input field to save quickly.",
+                inst_a: "Links to your projects and contacts.",
                 b_food: "Food", b_games: "Games", ph_variant: "Option...", ph_todo: "Task title...",
                 ph_desc: "Desc...", btn_choose: "SPIN", btn_gen: "CREATE", btn_copy: "COPY",
                 p_len: "Length", p_nums: "Numbers", p_syms: "Symbols", prio1: "🔴 High", prio2: "🟡 Mid", prio3: "🔵 Low", copied: "DONE!"
@@ -190,7 +201,13 @@
         }
 
         function toggleLang() { currentLang = currentLang === 'ru' ? 'en' : 'ru'; localStorage.setItem('lang', currentLang); updateUI(); }
-        function toggleTheme() { document.body.classList.toggle('dark-mode'); }
+        
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
         function showTab(t) { ['v','p','t','a'].forEach(id => { document.getElementById('panel-'+id).style.display = (id===t)?'block':'none'; document.getElementById('tab-'+id).classList.toggle('active', id===t); }); }
 
         function addVariant(text = "") {
@@ -260,7 +277,13 @@
         const lib = { food: ["Пицца", "Бургер", "Паста"], games: ["Minecraft", "Brawl Stars", "CS2"] };
         function addFromBlock(cat) { addVariant(lib[cat][Math.floor(Math.random()*lib[cat].length)]); }
 
-        window.onload = () => { updateUI(); saveAndRender(); };
+        window.onload = () => { 
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+            updateUI(); 
+            saveAndRender(); 
+        };
     </script>
 </body>
 </html>
