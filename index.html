@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Выбиратор Ultimate Mobile</title>
+    <title>Выбиратор PRO + Инструкция</title>
     <style>
-        /* Переменные цветов */
         :root {
             --bg: #f0f2f5;
             --card: #ffffff;
@@ -13,15 +12,16 @@
             --accent: #4ecca3;
             --btn-spin: #e94560;
             --li-bg: #e1e4e8;
+            --desc-text: #555;
         }
 
-        /* Цвета для темной темы */
         body.dark-mode {
             --bg: #1a1a2e;
             --card: #16213e;
             --text: #ffffff;
             --accent: #00d2ff;
             --li-bg: #0f3460;
+            --desc-text: #aaa;
         }
 
         body { 
@@ -33,10 +33,9 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            transition: background 0.3s, color 0.3s;
+            transition: 0.3s;
         }
 
-        /* Кнопка смены темы */
         .theme-btn {
             align-self: flex-end;
             background: var(--card);
@@ -45,9 +44,7 @@
             padding: 8px 15px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 14px;
             margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .box { 
@@ -56,16 +53,32 @@
             border-radius: 25px; 
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             text-align: center;
             box-sizing: border-box;
         }
 
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+        /* Блок описания */
+        .description {
+            max-width: 400px;
+            margin-top: 30px;
+            text-align: left;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--desc-text);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
+
+        .description h3 {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
 
         input { 
             flex-grow: 1;
@@ -88,21 +101,16 @@
             cursor: pointer;
         }
 
-        #list { 
-            text-align: left; 
-            margin: 20px 0; 
-            padding: 0; 
-            list-style: none;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
+        #list { text-align: left; margin: 20px 0; padding: 0; list-style: none; max-height: 150px; overflow-y: auto; }
+        
         li { 
             background: var(--li-bg); 
             margin-bottom: 8px; 
             padding: 12px; 
             border-radius: 12px; 
             border-left: 5px solid var(--accent);
+            display: flex;
+            justify-content: space-between;
         }
 
         #result { 
@@ -130,16 +138,7 @@
             cursor: pointer;
         }
 
-        .btn-spin:active { transform: scale(0.98); }
-        
-        .clear-link {
-            margin-top: 15px;
-            display: block;
-            font-size: 12px;
-            color: #888;
-            text-decoration: underline;
-            cursor: pointer;
-        }
+        .clear-link { margin-top: 15px; display: block; font-size: 12px; color: #888; cursor: pointer; }
     </style>
 </head>
 <body class="dark-mode">
@@ -147,49 +146,48 @@
     <button class="theme-btn" onclick="toggleTheme()">🌓 Сменить тему</button>
 
     <div class="box">
-        <h2 style="color: var(--accent); margin-top: 0;">ВЫБИРАТОР</h2>
+<h2 style="color: var(--accent); margin-top: 0;">ВЫБИРАТОР</h2>
         
         <div class="input-group">
-<input type="text" id="inp" placeholder="Что на выбор?" autocomplete="off">
+            <input type="text" id="inp" placeholder="Что добавим?" autocomplete="off">
             <button onclick="add()" class="btn-add">+</button>
         </div>
         
         <ul id="list"></ul>
-        
         <div id="result">ЖДУ...</div>
-        
-        <button onclick="choose()" class="btn-spin">КРУТИТЬ</button>
+        <button onclick="choose()" class="btn-spin">УЗНАТЬ ВЫБОР</button>
         <span class="clear-link" onclick="clearAll()">Очистить всё</span>
+    </div>
+
+    <div class="description">
+        <h3>📝 Как пользоваться?</h3>
+        <p>1. <b>Добавь варианты:</b> Введи текст в поле сверху и нажми «+» или клавишу Enter.</p>
+        <p>2. <b>Проверь список:</b> Все твои идеи появятся в списке. Можно добавить сколько угодно вариантов!</p>
+        <p>3. <b>Запусти рандом:</b> Нажми «КРУТИТЬ», и магия математики выберет один случайный вариант за тебя.</p>
+        <p>4. <b>Меняй режим:</b> Используй кнопку сверху, чтобы переключиться на светлую или темную тему.</p>
     </div>
 
 <script>
     var items = [];
-
-    // Переключение темы
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-    }
-
-    // Добавление
+    function toggleTheme() { document.body.classList.toggle('dark-mode'); }
+    
     function add() {
         var pole = document.getElementById('inp');
         var text = pole.value.trim();
         if (text !== "") {
             items.push(text);
             var li = document.createElement('li');
-            li.textContent = text;
+            li.innerHTML = <span>${text}</span> <span style="opacity:0.5; font-size:12px">на месте!</span>;
             document.getElementById('list').appendChild(li);
             pole.value = "";
             pole.focus();
         }
     }
 
-    // Выбор с анимацией
     function choose() {
         if (items.length < 2) return alert("Нужно хотя бы 2 варианта!");
         var resDiv = document.getElementById('result');
         var count = 0;
-        
         var timer = setInterval(function() {
             resDiv.innerText = items[Math.floor(Math.random() * items.length)].toUpperCase();
             count++;
@@ -197,16 +195,13 @@
         }, 80);
     }
 
-    // Очистка
     function clearAll() {
         items = [];
         document.getElementById('list').innerHTML = "";
         document.getElementById('result').innerText = "ЖДУ...";
     }
 
-    // Enter
     document.getElementById('inp').addEventListener('keydown', (e) => { if(e.key === "Enter") add(); });
 </script>
-
 </body>
 </html>
