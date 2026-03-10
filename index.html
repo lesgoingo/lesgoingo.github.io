@@ -1,102 +1,211 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Выбиратор 5.0 - Анимация</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Выбиратор Ultimate Mobile</title>
     <style>
-        body { background: #1a1a2e; color: white; font-family: sans-serif; text-align: center; }
-        .box { 
-            background: #16213e; padding: 20px; border-radius: 15px; 
-            display: inline-block; margin-top: 50px; border: 1px solid #0f3460; width: 280px;
+        /* Переменные цветов */
+        :root {
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --text: #1a1a2e;
+            --accent: #4ecca3;
+            --btn-spin: #e94560;
+            --li-bg: #e1e4e8;
         }
-        input { padding: 12px; border-radius: 8px; border: none; width: 180px; outline: none; }
-        button { padding: 10px; cursor: pointer; border-radius: 8px; border: none; font-weight: bold; transition: 0.2s; }
-        button:active { transform: scale(0.95); }
-        
-        #list { text-align: left; margin: 20px 0; padding-left: 0; list-style: none; max-height: 150px; overflow-y: auto; }
-        li { background: #0f3460; margin: 5px 0; padding: 10px; border-radius: 8px; border-left: 4px solid #4ecca3; animation: slideIn 0.3s ease; }
-        
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Цвета для темной темы */
+        body.dark-mode {
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --text: #ffffff;
+            --accent: #00d2ff;
+            --li-bg: #0f3460;
+        }
+
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: -apple-system, system-ui, sans-serif; 
+            margin: 0;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Кнопка смены темы */
+        .theme-btn {
+            align-self: flex-end;
+            background: var(--card);
+            border: 1px solid var(--accent);
+            color: var(--text);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .box { 
+            background: var(--card); 
+            padding: 25px; 
+            border-radius: 25px; 
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input { 
+            flex-grow: 1;
+            padding: 15px; 
+            border-radius: 12px; 
+            border: 2px solid var(--bg); 
+            background: var(--bg);
+            color: var(--text); 
+            font-size: 16px; 
+            outline: none; 
+        }
+
+        .btn-add {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 50px;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        #list { 
+            text-align: left; 
+            margin: 20px 0; 
+            padding: 0; 
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        li { 
+            background: var(--li-bg); 
+            margin-bottom: 8px; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border-left: 5px solid var(--accent);
+        }
 
         #result { 
-            font-size: 1.6rem; color: #4ecca3; font-weight: bold; 
-            margin: 20px 0; min-height: 50px; display: flex; align-items: center; justify-content: center;
-            border: 2px dashed #0f3460; border-radius: 10px;
+            font-size: 1.8rem; 
+            color: var(--btn-spin); 
+            font-weight: bold; 
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            border: 2px dashed var(--accent);
+            border-radius: 15px;
         }
+
+        .btn-spin { 
+            background: var(--btn-spin); 
+            color: white; 
+            width: 100%; 
+            padding: 18px; 
+            border: none; 
+            border-radius: 15px; 
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-spin:active { transform: scale(0.98); }
         
-        .btn-spin { background: #e94560; color: white; width: 100%; font-size: 1.1rem; box-shadow: 0 4px #a32e43; }
-        .btn-spin:active { box-shadow: 0 0; transform: translateY(4px); }
-        .btn-clear { background: transparent; color: #666; font-size: 0.8rem; margin-top: 15px; border: none; width: 100%; cursor: pointer; }
+        .clear-link {
+            margin-top: 15px;
+            display: block;
+            font-size: 12px;
+            color: #888;
+            text-decoration: underline;
+            cursor: pointer;
+        }
     </style>
 </head>
-<body>
+<body class="dark-mode">
 
-<div class="box">
-    <h2 style="color: #4ecca3;">ВЫБИРАТОР</h2>
-    
-    <div style="display: flex; gap: 5px; justify-content: center;">
-        <input type="text" id="inp" placeholder="Что добавим?">
-        <button onclick="add()" style="background: #4ecca3; color: white;">+</button>
+    <button class="theme-btn" onclick="toggleTheme()">🌓 Сменить тему</button>
+
+    <div class="box">
+        <h2 style="color: var(--accent); margin-top: 0;">ВЫБИРАТОР</h2>
+        
+        <div class="input-group">
+<input type="text" id="inp" placeholder="Что на выбор?" autocomplete="off">
+            <button onclick="add()" class="btn-add">+</button>
+        </div>
+        
+        <ul id="list"></ul>
+        
+        <div id="result">ЖДУ...</div>
+        
+        <button onclick="choose()" class="btn-spin">КРУТИТЬ</button>
+        <span class="clear-link" onclick="clearAll()">Очистить всё</span>
     </div>
-    
-    <ul id="list"></ul>
-    
-    <div id="result">ЖДУ ВВОДА...</div>
-    
-    <button id="spinBtn" onclick="choose()" class="btn-spin">КРУТИТЬ!</button>
-    <button onclick="clearList()" class="btn-clear">Очистить всё</button>
-</div>
 
 <script>
     var items = [];
 
+    // Переключение темы
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+    }
+
+    // Добавление
     function add() {
         var pole = document.getElementById('inp');
         var text = pole.value.trim();
         if (text !== "") {
             items.push(text);
-            var spisok = document.getElementById('list');
             var li = document.createElement('li');
             li.textContent = text;
-            spisok.appendChild(li);
+            document.getElementById('list').appendChild(li);
             pole.value = "";
+            pole.focus();
         }
     }
 
-    document.getElementById('inp').addEventListener('keydown', function(e) {
-        if (e.key === "Enter") add();
-    });
-
+    // Выбор с анимацией
     function choose() {
-        if (items.length < 2) return alert("Мало вариантов!");
-        
+        if (items.length < 2) return alert("Нужно хотя бы 2 варианта!");
         var resDiv = document.getElementById('result');
-        var btn = document.getElementById('spinBtn');
-        
-        // Отключаем кнопку на время анимации
-        btn.disabled = true;
-        resDiv.style.color = "#ffbd69"; // Меняем цвет во время "вращения"
-        
         var count = 0;
+        
         var timer = setInterval(function() {
-            // Показываем случайный вариант каждые 100мс
-            var randomNum = Math.floor(Math.random() * items.length);
-            resDiv.innerText = items[randomNum].toUpperCase();
-            
+            resDiv.innerText = items[Math.floor(Math.random() * items.length)].toUpperCase();
             count++;
-            if (count > 15) { // После 15 переключений останавливаемся
-                clearInterval(timer);
-                resDiv.style.color = "#4ecca3"; // Финальный цвет
-                btn.disabled = false;
-            }
+            if (count > 12) clearInterval(timer);
         }, 80);
     }
 
-    function clearList() {
+    // Очистка
+    function clearAll() {
         items = [];
         document.getElementById('list').innerHTML = "";
-        document.getElementById('result').innerText = "ЖДУ ВВОДА...";
+        document.getElementById('result').innerText = "ЖДУ...";
     }
+
+    // Enter
+    document.getElementById('inp').addEventListener('keydown', (e) => { if(e.key === "Enter") add(); });
 </script>
 
 </body>
