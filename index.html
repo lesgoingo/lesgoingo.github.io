@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Выбиратор PRO + Инструкция</title>
+    <title>Выбиратор PRO — Исправлено</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --bg: #f0f2f5;
@@ -11,84 +12,67 @@
             --text: #1a1a2e;
             --accent: #4ecca3;
             --btn-spin: #e94560;
-            --li-bg: #e1e4e8;
-            --desc-text: #555;
+            --li-bg: #f8f9fa;
         }
 
         body.dark-mode {
-            --bg: #1a1a2e;
-            --card: #16213e;
-            --text: #ffffff;
-            --accent: #00d2ff;
-            --li-bg: #0f3460;
-            --desc-text: #aaa;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --accent: #38bdf8;
+            --btn-spin: #f43f5e;
+            --li-bg: #334155;
         }
 
         body { 
             background: var(--bg); 
             color: var(--text); 
-            font-family: -apple-system, system-ui, sans-serif; 
+            font-family: sans-serif; 
             margin: 0;
             display: flex; 
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
             padding: 20px;
             transition: 0.3s;
+            box-sizing: border-box;
         }
 
         .theme-btn {
             align-self: flex-end;
             background: var(--card);
-            border: 1px solid var(--accent);
+            border: 2px solid var(--accent);
             color: var(--text);
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            z-index: 10; /* Чтобы кнопка всегда была сверху */
         }
 
         .box { 
             background: var(--card); 
             padding: 25px; 
-            border-radius: 25px; 
+            border-radius: 24px; 
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
-            box-sizing: border-box;
-        }
-
-        /* Блок описания */
-        .description {
-            max-width: 400px;
-            margin-top: 30px;
-            text-align: left;
-            background: var(--card);
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--desc-text);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .description h3 {
-            margin-top: 0;
-            color: var(--accent);
-            font-size: 1.1rem;
+            position: relative;
+            z-index: 5;
         }
 
         .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
 
         input { 
             flex-grow: 1;
-            padding: 15px; 
+            padding: 14px; 
             border-radius: 12px; 
             border: 2px solid var(--bg); 
             background: var(--bg);
             color: var(--text); 
             font-size: 16px; 
-            outline: none; 
+            outline: none;
         }
 
         .btn-add {
@@ -101,7 +85,7 @@
             cursor: pointer;
         }
 
-        #list { text-align: left; margin: 20px 0; padding: 0; list-style: none; max-height: 150px; overflow-y: auto; }
+        #list { text-align: left; margin: 15px 0; padding: 0; list-style: none; max-height: 160px; overflow-y: auto; }
         
         li { 
             background: var(--li-bg); 
@@ -109,99 +93,136 @@
             padding: 12px; 
             border-radius: 12px; 
             border-left: 5px solid var(--accent);
-            display: flex;
-            justify-content: space-between;
         }
 
         #result { 
-            font-size: 1.8rem; 
+            font-size: 1.6rem; 
             color: var(--btn-spin); 
             font-weight: bold; 
-            height: 70px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 20px 0;
-            border: 2px dashed var(--accent);
-            border-radius: 15px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 12px;
         }
 
         .btn-spin { 
             background: var(--btn-spin); 
             color: white; 
             width: 100%; 
-            padding: 18px; 
+            padding: 20px; 
             border: none; 
-            border-radius: 15px; 
+            border-radius: 16px; 
             font-size: 1.2rem;
             font-weight: bold;
-            cursor: pointer;
+            cursor: pointer; /* Убеждаемся, что курсор меняется */
+            position: relative;
+            display: block;
         }
 
-        .clear-link { margin-top: 15px; display: block; font-size: 12px; color: #888; cursor: pointer; }
+        .btn-spin:active { transform: scale(0.98); }
+
+        .description {
+            max-width: 380px;
+            margin-top: 25px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        footer { margin-top: auto; padding: 20px; color: #888; font-size: 0.8rem; text-align: center; }
     </style>
 </head>
 <body class="dark-mode">
 
-    <button class="theme-btn" onclick="toggleTheme()">🌓 Сменить тему</button>
+    <button class="theme-btn" onclick="toggleTheme()">🌓 Тема</button>
 
     <div class="box">
 <h2 style="color: var(--accent); margin-top: 0;">ВЫБИРАТОР</h2>
         
         <div class="input-group">
-            <input type="text" id="inp" placeholder="Что добавим?" autocomplete="off">
+            <input type="text" id="inp" placeholder="Введите вариант..." autocomplete="off">
             <button onclick="add()" class="btn-add">+</button>
         </div>
         
         <ul id="list"></ul>
-        <div id="result">ЖДУ...</div>
-        <button onclick="choose()" class="btn-spin">УЗНАТЬ ВЫБОР</button>
-        <span class="clear-link" onclick="clearAll()">Очистить всё</span>
+        <div id="result">ЖДУ ВАРИАНТЫ</div>
+        
+        <button type="button" onclick="chooseNow()" class="btn-spin">УЗНАТЬ ВЫБОР</button>
+        
+        <button onclick="clearAll()" style="background:none; border:none; color:#888; cursor:pointer; margin-top:15px; text-decoration:underline;">Очистить всё</button>
     </div>
 
     <div class="description">
-        <h3>📝 Как пользоваться?</h3>
-        <p>1. <b>Добавь варианты:</b> Введи текст в поле сверху и нажми «+» или клавишу Enter.</p>
-        <p>2. <b>Проверь список:</b> Все твои идеи появятся в списке. Можно добавить сколько угодно вариантов!</p>
-        <p>3. <b>Запусти рандом:</b> Нажми «КРУТИТЬ», и магия математики выберет один случайный вариант за тебя.</p>
-        <p>4. <b>Меняй режим:</b> Используй кнопку сверху, чтобы переключиться на светлую или темную тему.</p>
+        <b>Инструкция:</b> Добавьте минимум два варианта и нажмите на красную кнопку. Система выберет один случайным образом.
     </div>
+
+    <footer>
+        © 2026 Разработано пользователем Lesgoingo
+    </footer>
 
 <script>
     var items = [];
-    function toggleTheme() { document.body.classList.toggle('dark-mode'); }
-    
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+    }
+
     function add() {
         var pole = document.getElementById('inp');
         var text = pole.value.trim();
         if (text !== "") {
             items.push(text);
             var li = document.createElement('li');
-            li.innerHTML = <span>${text}</span> <span style="opacity:0.5; font-size:12px">на месте!</span>;
+            li.textContent = text;
             document.getElementById('list').appendChild(li);
             pole.value = "";
             pole.focus();
         }
     }
 
-    function choose() {
-        if (items.length < 2) return alert("Нужно хотя бы 2 варианта!");
+    // Переименовал функцию для надежности
+    function chooseNow() {
+        if (items.length < 2) {
+            alert("Нужно добавить хотя бы 2 варианта!");
+            return;
+        }
+        
         var resDiv = document.getElementById('result');
         var count = 0;
+        
+        // Запускаем перебор
         var timer = setInterval(function() {
-            resDiv.innerText = items[Math.floor(Math.random() * items.length)].toUpperCase();
+            var randomIndex = Math.floor(Math.random() * items.length);
+            resDiv.innerText = items[randomIndex].toUpperCase();
             count++;
-            if (count > 12) clearInterval(timer);
+            
+            if (count > 12) {
+                clearInterval(timer);
+                // Запуск конфетти при финале
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
         }, 80);
     }
 
     function clearAll() {
         items = [];
         document.getElementById('list').innerHTML = "";
-        document.getElementById('result').innerText = "ЖДУ...";
+        document.getElementById('result').innerText = "ЖДУ ВАРИАНТЫ";
     }
 
-    document.getElementById('inp').addEventListener('keydown', (e) => { if(e.key === "Enter") add(); });
+    document.getElementById('inp').addEventListener('keydown', function(e) {
+        if (e.key === "Enter") add();
+    });
 </script>
+
 </body>
 </html>
